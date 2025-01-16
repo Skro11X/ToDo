@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <header class="header_area">
+  {% for deck in object_list %}
+      <a href="{{ deck.get_absolute_url }}">{{deck.name}}</a>
+  {% endfor %}
+{% endblock %}

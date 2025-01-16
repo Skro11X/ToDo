@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form action="/your-name/" method="post">
+    {% csrf_token %}
+    {{ form_class }}
+    <input type="submit" value="Submit">
+</form>
+  <header class="header_area">
+          {% for task in tasks %}
+              <p>{{task.label}}</p>
+          {% endfor %}
+
+{% endblock %}
