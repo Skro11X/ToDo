@@ -1,14 +1,27 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<form action="/your-name/" method="post">
+<form action="{% url 'deck-detail' object.slug %}" method="post">
     {% csrf_token %}
     {{ form_class }}
     <input type="submit" value="Submit">
 </form>
   <header class="header_area">
           {% for task in tasks %}
-              <p>{{task.label}}</p>
+              {% for statuses in task.get_available_statuses %}
+                  <form action="{% url 'change-status-task' %}" method="post">
+                      {% csrf_token %}
+                      <input type="hidden" name="id_task" value="{{ task.id }}">
+                      <input type="hidden" name="new_status" value="{{ statuses }}">
+                      <input type="submit" value="{{ statuses }}">
+                  </form>
+              {% endfor %}
+              <p>{{task.label}} then have status:{{ task.get_status_display }}</p>
+              <p><a href="{% url 'task-update' task.slug %}">Изменить</a></p>
           {% endfor %}
-
+      <form method="post" action="{% url 'task-create' %}">
+          {% csrf_token %}
+          {{ form_of_task.as_p }}
+          <input type="submit" value="Save">
+      </form>
 {% endblock %}

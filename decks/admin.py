@@ -5,6 +5,6 @@ from decks import models
 class TaskAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(models.TasksDeck)
+@admin.register(models.Deck)
 class ModelNameAdmin(admin.ModelAdmin):
     pass

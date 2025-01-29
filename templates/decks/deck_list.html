@@ -3,6 +3,11 @@
 {% block content %}
   <header class="header_area">
   {% for deck in object_list %}
-      <a href="{{ deck.get_absolute_url }}">{{deck.name}}</a>
+      <a href="{{ deck.get_absolute_url }}">{{deck.name}}</a>|
   {% endfor %}
+  <form method="post" action="{% url 'deck-create' %}">
+      {% csrf_token %}
+      {{ form.as_p }}
+    <input type="submit" value="Save">
+  </form>
 {% endblock %}

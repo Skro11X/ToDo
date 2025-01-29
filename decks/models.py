@@ -1,9 +1,8 @@
 from django.db import models
 from django.urls import reverse
-from mptt.models import TreeForeignKey, MPTTModel
 
 
-class TasksDeck(models.Model):
+class Deck(models.Model):
     name = models.CharField(max_length=100, verbose_name="Name")
     slug = models.SlugField(max_length=100, verbose_name="Slug")
 
@@ -11,20 +10,21 @@ class TasksDeck(models.Model):
         return reverse("deck-detail", kwargs={"slug": self.slug})
 
 
-class Task(MPTTModel):
+class Task(models.Model):
     _status_choices = [
         ("TD", "to do"),
         ("IP", "in progress"),
         ("DN", "done"),
     ]
 
+
     status = models.CharField(default=False, choices=_status_choices, max_length=20, verbose_name="Status")
-    label = models.CharField(max_length=100 , verbose_name="Label")
+    label = models.CharField(max_length=100, verbose_name="Label")
     description = models.TextField(verbose_name="Description")
     slug = models.SlugField(max_length=100, verbose_name="Slug")
-    deck = models.ForeignKey(TasksDeck, on_delete=models.CASCADE, verbose_name="Deck")
-    parent = TreeForeignKey("self", on_delete=models.CASCADE, verbose_name="Parent", null=True, blank=True)
+    deck = models.ForeignKey(Deck, on_delete=models.CASCADE, verbose_name="Deck")
 
-
-
-
+    def get_available_statuses(self):
+        all_statuses = [status[0] for status in self._status_choices]
+        my_status = all_statuses.index(self.status)
+        return [all_statuses[i] for i in range(len(all_statuses)) if my_status == i + 1 or my_status == i - 1]
