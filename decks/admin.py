@@ -3,8 +3,8 @@ from decks import models
 
 @admin.register(models.Task)
 class TaskAdmin(admin.ModelAdmin):
-    pass
+    prepopulated_fields = {'slug': ('label',)}
 
 @admin.register(models.Deck)
 class ModelNameAdmin(admin.ModelAdmin):
-    pass
+    prepopulated_fields = {'slug': ('name',)}

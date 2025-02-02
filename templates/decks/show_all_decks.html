@@ -1,0 +1,10 @@
+<h5>Навигация</h5>
+
+<ul class="list-group">
+    {% for deck in decks %}
+   
+        <li class="list-group-item text-truncate"><a href="{% url 'deck-detail' deck.slug %}">{{ deck.name }}</a></li>
+        
+    {% endfor %}
+</ul>
+

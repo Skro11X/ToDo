@@ -9,6 +9,7 @@ class DeckListView(ListView):
     queryset = Deck.objects.all()
     template_name = 'decks/deck_list.html'
     form_class = DeckForm
+    context_object_name = "decks"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -24,9 +25,13 @@ class DeckDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['tasks'] = Task.objects.filter(deck=self.object)
-        context['form_class'] = self.form_class(instance=self.object)
-        context['form_of_task'] = TaskForm(initial={'deck': self.object.id})
+        context['tasks_groups'] = {
+            "To Do": Task.objects.filter(deck=self.object, status=Task.Status.TO_DO),
+            "In Progress": Task.objects.filter(deck=self.object, status=Task.Status.IN_PROGRESS),
+            "Done": Task.objects.filter(deck=self.object, status=Task.Status.DONE),
+        }
+        context['form_class_detail'] = self.form_class(instance=self.object)
+        context['form_of_task'] = TaskForm(initial={'deck': self.object.id, 'status': 'TD'})
         return context
 
     def post(self, request, *args, **kwargs):

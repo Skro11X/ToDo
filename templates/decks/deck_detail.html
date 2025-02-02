@@ -1,27 +1,51 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<form action="{% url 'deck-detail' object.slug %}" method="post">
-    {% csrf_token %}
-    {{ form_class }}
-    <input type="submit" value="Submit">
-</form>
-  <header class="header_area">
-          {% for task in tasks %}
-              {% for statuses in task.get_available_statuses %}
-                  <form action="{% url 'change-status-task' %}" method="post">
-                      {% csrf_token %}
-                      <input type="hidden" name="id_task" value="{{ task.id }}">
-                      <input type="hidden" name="new_status" value="{{ statuses }}">
-                      <input type="submit" value="{{ statuses }}">
-                  </form>
-              {% endfor %}
-              <p>{{task.label}} then have status:{{ task.get_status_display }}</p>
-              <p><a href="{% url 'task-update' task.slug %}">Изменить</a></p>
-          {% endfor %}
-      <form method="post" action="{% url 'task-create' %}">
-          {% csrf_token %}
-          {{ form_of_task.as_p }}
-          <input type="submit" value="Save">
-      </form>
+    <!-- Правая колонка с основным контентом -->
+    {% for task_group_name, task_group in tasks_groups.items %}
+        <div class="col-md-4 mb-3">
+            <h5 class="text-center">{{ task_group_name }}</h5>
+            {% for task in task_group %}
+                <div class="card mb-3"
+                     style="background-color: #e9ecef; border-color: #adb5bd;">
+                    {% if task %}
+                        <div class="card-body">
+                            <form action="{% url 'change-status-task' %}" method="POST"
+                                  class="mb-2">
+                                {% csrf_token %}
+                                <input type="hidden" name="id_task" value="{{ task.id }}">
+                                <div class="input-group">
+                                    <select name="new_status" class="form-select"
+                                            onchange="this.form.submit()">
+                                        <option value="" selected disabled>Поменять статус
+                                        </option>
+                                        {% for status, text in task.get_available_statuses.items %}
+                                            <option value="{{ status }}">{{ text }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </form>
+                            <p class="mb-1"><strong>{{ task.label }}</strong> имеет статус:
+                                <span class="badge bg-secondary">{{ task.get_status_display }}</span>
+                            </p>
+                            <p>
+                                <a href="{% url 'task-update' task.slug %}"
+                                   class="btn btn-sm btn-dark">
+                                    Изменить
+                                </a>
+                            </p>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+    <form class="col-md-12" method="post" action="{% url 'task-create' %}" class="mt-4">
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ form_of_task.as_p }}
+        </div>
+        <button type="submit" class="btn btn-secondary">Save</button>
+    </form>
+
 {% endblock %}
