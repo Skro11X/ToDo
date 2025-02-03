@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="col-12">
+        <h2>Удалить доску с названием {{ deck.name }}</h2>
+    </div>
+
+    <form method="post" action="{% url 'deck-delete' pk=object.id %}">
+        {% csrf_token %}
+        <button class="btn btn-danger" type="submit">Удалить</button>
+            <a class="btn btn-secondary" href="{{ lust_page }}">Отмена</a>
+    </form>
+{% endblock %}

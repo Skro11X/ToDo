@@ -3,7 +3,7 @@ from django import forms
 from decks.models import Task,  Deck
 
 class TaskForm(forms.ModelForm):
-    deck = forms.ModelChoiceField(queryset=Deck.objects.all(),widget=forms.HiddenInput())
+    deck = forms.ModelChoiceField(queryset=Deck.objects.all(), widget=forms.HiddenInput())
     status = forms.CharField(widget=forms.HiddenInput())
 
     def __init__(self, *args, **kwargs):

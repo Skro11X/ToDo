@@ -1,10 +1,14 @@
-<h5>Навигация</h5>
-
-<ul class="list-group">
-    {% for deck in decks %}
-   
-        <li class="list-group-item text-truncate"><a href="{% url 'deck-detail' deck.slug %}">{{ deck.name }}</a></li>
-        
-    {% endfor %}
-</ul>
-
+    <ul class="list-group">
+        {% for deck in decks %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span class="text-truncate" style="max-width: 70%;">
+                    <a href="{% url 'deck-detail' deck.slug %}" class="text-truncate d-inline-block" style="max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                        {{ deck.name }}
+                    </a>
+                </span>
+                <a href="{% url 'deck-delete' deck.id %}" class="badge bg-danger text-white p-2 flex-shrink-0 text-decoration-none">
+                    Удалить
+                </a>
+            </li>
+        {% endfor %}
+    </ul>

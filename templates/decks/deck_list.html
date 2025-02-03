@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
     <div class="col-md-4 m-4">
-        <h2>Создание доски</h2>
         <form method="post" action="{% url 'deck-create' %}">
             {% csrf_token %}
             {{ form.as_p }}
-            <input type="submit" value="Save">
+            <input type="submit" value="Сохранить">
         </form>
     </div>
 {% endblock %}

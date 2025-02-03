@@ -1,13 +1,5 @@
 from django.db import models
 from django.urls import reverse
-from django.utils.text import slugify
-import uuid
-from unidecode import unidecode
-
-
-def get_random_slag(model_class, instance=None):
-    while model_class.objects.filter(slug=instance.slug).exists():
-        instance.slug = instance.slug + uuid.uuid4().hex[:8]
 
 
 class Deck(models.Model):
@@ -16,11 +8,6 @@ class Deck(models.Model):
 
     def get_absolute_url(self):
         return reverse("deck-detail", kwargs={"slug": self.slug})
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(unidecode(self.name), allow_unicode=True)
-        get_random_slag(self.__class__, instance=self)
-        super().save(*args, **kwargs)
 
 
 class Task(models.Model):
@@ -41,7 +28,7 @@ class Task(models.Model):
         available_statuses.pop(my_choice)
         return available_statuses
 
-    def save(self, *args, **kwargs):
-        self.slug = slugify(unidecode(self.label), allow_unicode=True)
-        get_random_slag(self.__class__, instance=self)
-        super().save(*args, **kwargs)
+
+
+    def __str__(self):
+        return self.slug

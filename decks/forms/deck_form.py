@@ -12,3 +12,6 @@ class DeckForm(forms.ModelForm):
     class Meta:
         model = Deck
         fields = ['name',]
+        labels = {
+            'name': 'Название доски',
+        }

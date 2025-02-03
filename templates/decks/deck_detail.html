@@ -4,7 +4,7 @@
     <!-- Правая колонка с основным контентом -->
     {% for task_group_name, task_group in tasks_groups.items %}
         <div class="col-md-4 mb-3">
-            <h5 class="text-center">{{ task_group_name }}</h5>
+            <h5 class="text-center">{{ task_group_name.0 }}</h5>
             {% for task in task_group %}
                 <div class="card mb-3"
                      style="background-color: #e9ecef; border-color: #adb5bd;">
@@ -28,24 +28,27 @@
                             <p class="mb-1"><strong>{{ task.label }}</strong> имеет статус:
                                 <span class="badge bg-secondary">{{ task.get_status_display }}</span>
                             </p>
+
                             <p>
-                                <a href="{% url 'task-update' task.slug %}"
-                                   class="btn btn-sm btn-dark">
+                            <div class="btn-group" role="group">
+                                <!-- Кнопка "Изменить" -->
+                                <a href="{% url 'task-update' task.slug %}" class="btn btn-sm btn-dark">
                                     Изменить
                                 </a>
+
+                                <!-- Кнопка "Удалить" -->
+                                <a href="{% url 'task-delete' task.id %}" class="btn btn-sm btn-danger">
+                                    Удалить
+                                </a>
+                            </div>
                             </p>
                         </div>
                     {% endif %}
                 </div>
             {% endfor %}
+                <a class="btn btn-primary col-md-12"
+                   href="{% url 'task-create' object.id %}?status={{ task_group_name.1 }}">Создать
+                </a>
         </div>
     {% endfor %}
-    <form class="col-md-12" method="post" action="{% url 'task-create' %}" class="mt-4">
-        {% csrf_token %}
-        <div class="mb-3">
-            {{ form_of_task.as_p }}
-        </div>
-        <button type="submit" class="btn btn-secondary">Save</button>
-    </form>
-
 {% endblock %}

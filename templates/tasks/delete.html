@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="col-12">
+        <h2>Удалить задачу с названием {{ object.label }}</h2>
+    </div>
+
+    <form method="post" action="{% url 'task-delete' pk=object.id %}">
+        {% csrf_token %}
+        <button class="btn btn-danger" type="submit">Удалить</button>
+            <a class="btn btn-secondary" href="{{ lust_page }}">Отмена</a>
+    </form>
+{% endblock %}
