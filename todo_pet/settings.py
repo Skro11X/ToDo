@@ -79,8 +79,8 @@ WSGI_APPLICATION = 'todo_pet.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'to_do_db',
-        'USER': 'myproject',
+        'NAME': 'myproject',
+        'USER': 'to_do_backend',
         'PASSWORD': '159753',
         'HOST': 'localhost',
         'PORT': '',
