@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-25v77^%b(qpq3nqno+l3*z9qh0i6le@*(v!^%7p++aopyk7-o^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["194.87.99.198"]
 
 
 # Application definition
@@ -82,8 +82,8 @@ DATABASES = {
         'NAME': 'to_do_db',
         'USER': 'to_do_backend',
         'PASSWORD': '159753',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
@@ -123,7 +123,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
-
+STATIC_ROOT = BASE_DIR / 'static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
