@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'todo_pet.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'myproject',
         'USER': 'to_do_backend',
         'PASSWORD': '159753',
