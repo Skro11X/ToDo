@@ -1,13 +1,8 @@
-# Используем официальный образ PostgreSQL 15.10
-FROM postgres:15.10
-
-# Устанавливаем переменные окружения для PostgreSQL
-ENV POSTGRES_USER=to_do_backend \
-    POSTGRES_PASSWORD=159753 \
-    POSTGRES_DB=to_do_db
-
-# Открываем стандартный порт PostgreSQL
-EXPOSE 5432
-
-# Указываем команду по умолчанию
-CMD ["postgres"]
+FROM python:3.12
+WORKDIR /code
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+COPY ./requirements.txt /code/requirements.txt
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+COPY . /code
+ENTRYPOINT ["/code/entrypoint.sh"]
